@@ -1,0 +1,42 @@
+name: Build Artifact
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Pack npm artifact
+        run: npm pack
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: horizon-torn-mcp-dist
+          path: dist/
+
+      - name: Upload npm package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: horizon-torn-mcp-package
+          path: "*.tgz"

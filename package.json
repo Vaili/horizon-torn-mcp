@@ -1,0 +1,46 @@
+{
+  "name": "@galatar/torn-mcp",
+  "version": "0.1.0",
+  "private": false,
+  "description": "horizon-torn-mcp MCP server exposing Torn City API v2 endpoints as tools",
+  "author": "Galatar [4283617]",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "horizon-torn-mcp": "dist/src/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "node -e \"import('node:fs/promises').then(fs => fs.rm('dist', { recursive: true, force: true }))\"",
+    "generate": "tsx scripts/generate-tools.ts",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "prebuild": "npm run generate",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/src/index.js",
+    "artifact": "npm pack",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "torn",
+    "api"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.2",
+    "dotenv": "^16.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.31",
+    "tsx": "^4.20.2",
+    "typescript": "^5.8.3"
+  }
+}
